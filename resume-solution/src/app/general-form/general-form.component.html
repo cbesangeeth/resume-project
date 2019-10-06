@@ -1,0 +1,71 @@
+<h3>Resume Page</h3>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="basicDetailsForm">
+    <form [formGroup]="basicDetailsForm">
+      <ng-template matStepLabel>Fill out your basic details</ng-template>
+      <!--  -->
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Enter your name" id="name" type="text" formControlName="name" required>
+            <mat-error *ngIf="f.name.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Enter your address" id="address" type="Textarea" formControlName="address"
+              required>
+            <mat-error *ngIf="f.address.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Enter your email" id="email" type="email" formControlName="email" required>
+            <mat-error *ngIf="f.email.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Enter your mobile" id="mobile" type="text" formControlName="mobile" required>
+            <mat-error *ngIf="f.email.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <label>Gender: </label>
+          <mat-radio-group id="gender" formControlName="gender">
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="Female">Female</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+      <!--  -->
+      <div>
+        <button (ngSubmit)="onSubmit(basicDetailsForm.value)" mat-raised-button color="primary" matStepperNext>Save & Continue</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your work details</ng-template>
+      <!-- -->
+      <button (click)="open()"> + add experience</button>
+      <!--  -->
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
