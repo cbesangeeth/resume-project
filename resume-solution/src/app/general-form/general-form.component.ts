@@ -19,6 +19,9 @@ export class GeneralFormComponent {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
+  // response to child component
+  response;
+
   constructor(
     private formBuilder: FormBuilder,
     private generalService: GeneralService,
@@ -53,11 +56,13 @@ export class GeneralFormComponent {
 
     this.generalService.createProfile(formData).subscribe(response => {
 
-      if (response.status === 200) {
-        console.log("success", response);
-        alert('SUCCESS!! \n\n' + JSON.stringify(this.basicDetailsForm.value, null, 4));
-        this.basicDetailsForm.reset();
-      }
+      alert('request!! \n\n' + JSON.stringify(this.basicDetailsForm.value, null, 4));
+
+      console.log("success", response);
+      this.response = response;
+      alert('SUCCESS!! \n\n' + JSON.stringify(this.basicDetailsForm.value, null, 4));
+      this.basicDetailsForm.reset();
+
     });
 
   }
@@ -72,10 +77,11 @@ export class GeneralFormComponent {
   get f() { return this.basicDetailsForm.controls; }
 
   open() {
-    const modalRef = this.modalService.open(WorkExperienceComponent);
+    const modalRef = this.modalService.open(WorkExperienceComponent, { size: 'sm', backdrop: 'static' });
     // this.modalService.open(this.theModal, { size: 'sm', backdrop: 'static'});
 
-    modalRef.componentInstance.userId = 1;
+    modalRef.componentInstance.userId = this.response.id;
+    modalRef.componentInstance.userName = this.response.name;
   }
 
 }

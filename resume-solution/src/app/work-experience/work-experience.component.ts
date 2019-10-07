@@ -14,6 +14,7 @@ import {
 export class WorkExperienceComponent implements OnInit {
 
   @Input() userId;
+  @Input() userName;
   workExperienceForm;
 
   constructor(
@@ -24,7 +25,7 @@ export class WorkExperienceComponent implements OnInit {
       companyName: '',
       designation: '',
       skills: '',
-      isCurrentCompany: false,
+      isCurrentCompany: true,
       start: ['', [Validators.required]],
       end: ''
     });

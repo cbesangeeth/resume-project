@@ -6,12 +6,20 @@ import com.sk.resumeservice.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
 
     @Autowired
     private UserRepo userRepo;
 
+    /**
+     * create order
+     * @param userDto
+     * @return
+     */
     public UserDto createUser(UserDto userDto) {
 
         // validate
@@ -31,5 +39,18 @@ public class UserService {
         userDto = new UserDto(user);
 
         return userDto;
+    }
+
+    /**
+     * Get all users
+     * @return list of userDtos
+     */
+    public List<UserDto> getAllUsers() {
+
+        List<UserDto> userDtos = userRepo.getAll().stream()
+                .map(UserDto::new)
+                .collect(Collectors.toList());
+
+        return userDtos;
     }
 }

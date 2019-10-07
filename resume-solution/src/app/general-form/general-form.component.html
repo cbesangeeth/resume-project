@@ -1,8 +1,9 @@
 <h3>Resume Page</h3>
 
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
+
   <mat-step [stepControl]="basicDetailsForm">
-    <form [formGroup]="basicDetailsForm">
+    <form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit(basicDetailsForm.value)">
       <ng-template matStepLabel>Fill out your basic details</ng-template>
       <!--  -->
         <div>
@@ -44,10 +45,11 @@
 
       <!--  -->
       <div>
-        <button (ngSubmit)="onSubmit(basicDetailsForm.value)" mat-raised-button color="primary" matStepperNext>Save & Continue</button>
+        <button type="submit" mat-button mat-raised-button matStepperNext>Save & Continue</button>
       </div>
     </form>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Fill out your work details</ng-template>
@@ -60,6 +62,7 @@
       </div>
     </form>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     You are now done.
@@ -68,4 +71,5 @@
       <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>
+
 </mat-horizontal-stepper>
