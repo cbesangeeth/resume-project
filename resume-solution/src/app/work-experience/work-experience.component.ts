@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import {
   NgbModal, NgbActiveModal, NgbTabChangeEvent, NgbDate, NgbCalendar, NgbModalOptions
 } from '@ng-bootstrap/ng-bootstrap';
+import { WorkService } from './work.service';
 
 
 @Component({
@@ -19,11 +20,12 @@ export class WorkExperienceComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private workService: WorkService,
   ) {
     this.workExperienceForm = this.formBuilder.group({
-      companyName: '',
-      designation: '',
+      companyName: ['', [Validators.required]],
+      designation: ['', [Validators.required]],
       skills: '',
       isCurrentCompany: true,
       start: ['', [Validators.required]],
@@ -41,6 +43,23 @@ export class WorkExperienceComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() {
     return this.workExperienceForm.controls;
+  }
+
+  onSubmit(formData) {
+    // stop here if form is invalid
+    if (this.workExperienceForm.invalid) {
+      return;
+    }
+
+    this.workService.createWork(formData).subscribe(response => {
+      alert('request!! \n\n' + JSON.stringify(this.workExperienceForm.value, null, 4));
+
+      console.log("success", response);
+      this.response = response;
+      alert('SUCCESS!! \n\n' + JSON.stringify(this.workExperienceForm.value, null, 4));
+      this.workExperienceForm.reset();
+
+    });
   }
 
 

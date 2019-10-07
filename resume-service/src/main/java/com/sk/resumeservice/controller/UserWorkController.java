@@ -14,8 +14,8 @@ public class UserWorkController {
     @Autowired
     UserWorkService userWorkService;
 
-    @PostMapping(path = "/userAddress")
-    private UserWork createUser(@RequestBody UserWorkDto userWorkDto){
+    @PostMapping(path = "/workProfiles")
+    private UserWork createUserworkProfile(@RequestBody UserWorkDto userWorkDto){
         return userWorkService.createUserWork(userWorkDto);
     }
 }

@@ -4,10 +4,10 @@
 
  </div>
 
-User id : {{userId}}
-User Name : {{userName}}
+ User id : {{userId}}
+ User Name : {{userName}}
  <div class="modal-body">
-   <form [formGroup]="workExperienceForm">
+   <form [formGroup]="workExperienceForm" (ngSubmit)="onSubmit(workExperienceForm.value)">
      <div>
        <mat-form-field>
          <input matInput placeholder="Company Name" id="companyName" type="text" formControlName="companyName" required>
@@ -51,5 +51,6 @@ User Name : {{userName}}
  </div>
 
  <div class="modal-footer">
+   <button type="submit" mat-button mat-raised-button matStepperNext>Add</button>
    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
  </div>
