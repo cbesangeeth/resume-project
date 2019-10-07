@@ -17,6 +17,7 @@ export class WorkExperienceComponent implements OnInit {
   @Input() userId;
   @Input() userName;
   workExperienceForm;
+  response;
 
   constructor(
     private formBuilder: FormBuilder,

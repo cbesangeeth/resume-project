@@ -7,12 +7,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class GeneralService {
+export class WorkService {
 
   constructor(private http: HttpClient) { }
 
-  createProfile(data) {
-    const url = `http://127.0.0.1:8083/users`;
+  createWork(data) {
+    const url = `http://127.0.0.1:8083/workProfiles`;
     return this.http.post(url, data)
       .pipe(
         map((res: Response) => res),

@@ -46,8 +46,6 @@ export class GeneralFormComponent {
   }
 
   onSubmit(formData) {
-    // Process checkout data here
-    console.warn('Your order has been submitted', formData);
 
     // stop here if form is invalid
     if (this.basicDetailsForm.invalid) {
@@ -55,6 +53,7 @@ export class GeneralFormComponent {
     }
 
     this.generalService.createProfile(formData).subscribe(response => {
+
 
       alert('request!! \n\n' + JSON.stringify(this.basicDetailsForm.value, null, 4));
 
