@@ -6,6 +6,7 @@ import com.sk.resumeservice.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,16 +42,4 @@ public class UserService {
         return userDto;
     }
 
-    /**
-     * Get all users
-     * @return list of userDtos
-     */
-    public List<UserDto> getAllUsers() {
-
-        List<UserDto> userDtos = userRepo.getAll().stream()
-                .map(UserDto::new)
-                .collect(Collectors.toList());
-
-        return userDtos;
-    }
 }
