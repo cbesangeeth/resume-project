@@ -10,12 +10,16 @@ import { GeneralFormComponent } from './general-form/general-form.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material';
 import {
-  MatButtonModule, MatSelectModule,MatRadioModule, MatDialogModule, MatExpansionModule, MatIconModule, MatCheckboxModule, MatDatepickerModule, MatInputModule,
+  MatButtonModule, MatSelectModule,MatRadioModule,MatNativeDateModule,
+  MatDialogModule, MatExpansionModule, MatIconModule, MatCheckboxModule,
+  MatDatepickerModule, MatInputModule, MatListModule,
 } from '@angular/material';
+
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';
 import { NgbModule,NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatStepperModule} from '@angular/material/stepper';
+import { GeneralService } from './general-form/general.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     WorkExperienceComponent
   ],
   imports: [
+    MatListModule,
+    MatNativeDateModule,
     NgbModalModule,
     BrowserModule,
     AppRoutingModule,
@@ -44,8 +50,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     NgbModule,
     MatStepperModule,
   ],
-  providers: [],
+  providers: [GeneralService],
   bootstrap: [AppComponent],
-  entryComponents:[WorkExperienceComponent,]
+  entryComponents:[WorkExperienceComponent]
 })
 export class AppModule { }

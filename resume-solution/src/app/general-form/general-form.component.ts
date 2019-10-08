@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { GeneralService } from './general.service';
 
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkExperienceComponent } from '../work-experience/work-experience.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
 @Component({
@@ -14,18 +14,17 @@ import { WorkExperienceComponent } from '../work-experience/work-experience.comp
 export class GeneralFormComponent {
 
   basicDetailsForm;
-  items;
+  items = [];
   isLinear = true;
-  firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   // response to child component
   response;
 
   constructor(
+    private inject: Injector,
     private formBuilder: FormBuilder,
-    private generalService: GeneralService,
-    private modalService: NgbModal
+    private generalService: GeneralService
   ) {
 
     this.basicDetailsForm = this.formBuilder.group({
@@ -36,9 +35,6 @@ export class GeneralFormComponent {
       gender: ''
     });
 
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
     this.secondFormGroup = this.formBuilder.group({
       items: [[], Validators.required]
     });
@@ -61,7 +57,7 @@ export class GeneralFormComponent {
       this.response = response;
       alert('SUCCESS!! \n\n' + JSON.stringify(this.basicDetailsForm.value, null, 4));
       this.basicDetailsForm.reset();
-
+      this.isLinear = !this.isLinear;
     });
 
   }
@@ -76,11 +72,25 @@ export class GeneralFormComponent {
   get f() { return this.basicDetailsForm.controls; }
 
   open() {
-    const modalRef = this.modalService.open(WorkExperienceComponent, { size: 'sm', backdrop: 'static' });
-    // this.modalService.open(this.theModal, { size: 'sm', backdrop: 'static'});
+    // inject MatDialog only for this function
+    const dialog = this.inject.get(MatDialog);
 
-    modalRef.componentInstance.userId = this.response.id;
-    modalRef.componentInstance.userName = this.response.name;
+    const dialogRef = dialog.open(WorkExperienceComponent, {
+      width: '450px',
+      data: {userId: this.response.id, userName: this.response.name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
+
+    // Get the result from child
+    dialogRef.componentInstance.formDataOutput.subscribe((data) => {
+      console.log(data);
+      this.items.push(data);
+    });
+
   }
 
 }

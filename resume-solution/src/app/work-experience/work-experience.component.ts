@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import {
-  NgbModal, NgbActiveModal, NgbTabChangeEvent, NgbDate, NgbCalendar, NgbModalOptions
-} from '@ng-bootstrap/ng-bootstrap';
 import { WorkService } from './work.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 @Component({
@@ -14,14 +12,16 @@ import { WorkService } from './work.service';
 })
 export class WorkExperienceComponent implements OnInit {
 
-  @Input() userId;
-  @Input() userName;
+  // @Input() userId;
+  // @Input() userName;
   workExperienceForm;
   response;
+  @Output() formDataOutput = new EventEmitter();
 
   constructor(
+    public dialogRef: MatDialogRef<WorkExperienceComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal,
     private workService: WorkService,
   ) {
     this.workExperienceForm = this.formBuilder.group({
@@ -35,6 +35,7 @@ export class WorkExperienceComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data)
   }
 
   onCheckboxChangeFn() {
@@ -52,6 +53,11 @@ export class WorkExperienceComponent implements OnInit {
       return;
     }
 
+    // set user id
+    formData.userId = this.data.userId;
+
+    this.formDataOutput.emit(formData);
+
     this.workService.createWork(formData).subscribe(response => {
       alert('request!! \n\n' + JSON.stringify(this.workExperienceForm.value, null, 4));
 
@@ -59,9 +65,9 @@ export class WorkExperienceComponent implements OnInit {
       this.response = response;
       alert('SUCCESS!! \n\n' + JSON.stringify(this.workExperienceForm.value, null, 4));
       this.workExperienceForm.reset();
+      this.dialogRef.close(true);
 
     });
   }
-
 
 }

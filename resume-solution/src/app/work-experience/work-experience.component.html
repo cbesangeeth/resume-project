@@ -6,9 +6,9 @@
 
  <div class="modal-body">
 
- User id : {{userId}}
- User Name : {{userName}}
-   <form [formGroup]="workExperienceForm" (ngSubmit)="onSubmit(workExperienceForm.value)">
+ User id : {{data.userId}}
+ User Name : {{data.userName}}
+   <form [formGroup]="workExperienceForm">
      <div>
        <mat-form-field>
          <input matInput placeholder="Company Name" id="companyName" type="text" formControlName="companyName" required>
@@ -25,7 +25,7 @@
 
      <div>
        <mat-form-field>
-         <input matInput placeholder="Skills" id="skills" type="text" formControlName="skills" required>
+         <input matInput placeholder="Skills" id="skills" type="text" formControlName="skills">
          <!-- <mat-error *ngIf="f.name.invalid">{{getErrorMessage()}}</mat-error> -->
        </mat-form-field>
      </div>
@@ -35,16 +35,18 @@
      </mat-checkbox>
 
      <div>
-       <mat-form-field>
-         <input matInput placeholder="Start Date" id="start" type="text" formControlName="start" required>
-         <!-- <mat-error *ngIf="f.name.invalid">{{getErrorMessage()}}</mat-error> -->
-       </mat-form-field>
+     <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Start Date" id="start" formControlName="start" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
      </div>
 
-     <div *ngIf="f.isCurrentCompany.value">
-       <mat-form-field>
-         <input matInput placeholder="End Date" id="end" type="text" formControlName="end" required>
-         <!-- <mat-error *ngIf="f.name.invalid">{{getErrorMessage()}}</mat-error> -->
+     <div *ngIf="!f.isCurrentCompany.value">
+        <mat-form-field>
+         <input matInput [matDatepicker]="picker" placeholder="End Date" id="end" formControlName="end" required>
+         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-datepicker #picker></mat-datepicker>
        </mat-form-field>
      </div>
 
@@ -52,6 +54,6 @@
  </div>
 
  <div class="modal-footer">
-   <button type="submit" mat-button mat-raised-button matStepperNext>Add</button>
-   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+   <button type="submit" mat-button mat-raised-button  (click)="onSubmit(workExperienceForm.value)">Add</button>
+   <button type="button" mat-button mat-raised-button [mat-dialog-close]="false">Close</button>
  </div>
